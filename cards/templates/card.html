@@ -176,7 +176,7 @@ body {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
             flex-direction: row;
-    max-width: 700px;
+    max-width: 90%;
   }
   .blog-card .meta {
     flex-basis: 40%;
@@ -217,7 +217,8 @@ body {
 </head>
 <body>
 <!-- partial:index.partial.html -->
-<div class="blog-card">
+{% if user.is_authenticated %}
+  <div class="blog-card">
     <div class="meta">
       <div class="photo" style="background-image: url(https://source.unsplash.com/1600x900/?technology)"></div>
       <ul class="details">
@@ -235,15 +236,21 @@ body {
     </div>
     <div class="description">
       <h1>{{card.title}}</h1>
-      <h2>To : {{card.assigned}}  By : {{card.due}}</h2>
-      <p>{{card.description}}</p>
+      <h2>To : {{card.assigned}} &nbsp&nbsp&nbsp By : {{card.due}}</h2>
+      <h3>{{card.description}}</h3>
+      {% for c in chat%}
+              <p><b>{{c.author}}</b><a style="font-size: 10px;">({{c.created_at}})</a>:{{c.msg}}</p>
+      {% endfor %}
       <p class="read-more">
-        <a href="#">Add on</a>
+        <a href="//localhost:8000/"> Back</a>
+        <a href="http://localhost:8000/card/add_chat/{{card.c_id}}/">Add on</a>
       </p>
     </div>
   </div>
 
 <!-- partial -->
-  
+{% else %}
+<h1>GET OUT!!</h1>
+{% endif %}
 </body>
 </html>

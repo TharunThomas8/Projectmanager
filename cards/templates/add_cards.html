@@ -1,6 +1,7 @@
 {% load bootstrap4 %} 
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %} 
+{% if user.is_authenticated %}
 <div style="width: 50%; padding-left:10%; padding-top: 50px ">
 <form method="POST">
 	{% csrf_token %}
@@ -10,3 +11,6 @@
 </form>
 <div><a href="//localhost:8000"> Back</a></div>
 </div>
+{% else %}
+<h1>GET OUT!!</h1>
+{% endif %}

@@ -10,4 +10,13 @@ class Cards(models.Model):
     assigned = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
-        return self.title +':'+ str(self.c_id) 
+        return self.title +':'+ str(self.c_id)
+
+class Chat(models.Model):
+    msg = models.CharField(max_length=50, blank=True)
+    author = models.CharField(max_length=50, blank=True)
+    card = models.ForeignKey('Cards',on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.card) +"-->"+ str(self.msg)
