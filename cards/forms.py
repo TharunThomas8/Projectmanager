@@ -5,7 +5,7 @@ from .models import Cards,Chat
 class NewCard(forms.ModelForm):
 	class Meta:
 		model = Cards
-		fields = ['title','description','due','assigned']
+		fields = ['title','description','due','assigned','file']
 		widgets = {
             'due': DatePickerInput(), # specify date-frmat
         }
@@ -13,4 +13,4 @@ class NewCard(forms.ModelForm):
 class NewChat(forms.ModelForm):
 	class Meta:
 		model = Chat
-		fields = ['author','msg','card']
+		fields = ['author','msg','file','card']

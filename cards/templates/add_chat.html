@@ -1,9 +1,11 @@
+{%  extends 'base.html' %}
+{% block content %}
 {% load bootstrap4 %} 
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %} 
-{% if user.is_authenticated %}
+{% if user.is_authenticated and user.profile.member or user.profile.admin %}
 <div style="width: 50%; padding-left:10%; padding-top: 50px ">
-<form method="POST">
+<form method="POST" enctype="multipart/form-data" >
   {% csrf_token %}
 <div class="form-group">
   <label for="id_author">Author</label>
@@ -19,6 +21,10 @@
     <option value="{{cid}}" selected>Card:{{cid}}</option>
   </select>
 </div>    
+<div class="form-group">
+  <label for="id_file">File</label>
+  <input type="file" name="file" class="form-control-file" title="" id="id_file">
+</div>
 
   <input type="submit" value='Save' />
 
@@ -28,3 +34,4 @@
 {% else %}
 <h1>GET OUT!!</h1>
 {% endif %}
+{% endblock%}

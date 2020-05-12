@@ -1,16 +1,33 @@
+{%  extends 'base.html' %}
+{% block content %}
 {% load bootstrap4 %} 
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %} 
-{% if user.is_authenticated %}
-<div style="width: 50%; padding-left:10%; padding-top: 50px ">
-<form method="POST">
-	{% csrf_token %}
-	{{ form.media }}
-    {% bootstrap_form form %}
-	<input type="submit" value='Save' />
-</form>
-<div><a href="//localhost:8000"> Back</a></div>
+{% if user.is_authenticated and user.profile.admin %}
+<style type="text/css">
+	.grid-container {
+	  display: grid;
+	  grid-template-areas:
+	    'main right';
+	  grid-gap: 10px;
+	}
+
+</style>
+<div style="width: 50%; padding-left:10%; padding-top: 5px ">
+	<div class="grid-container">
+		<form method="POST"  enctype="multipart/form-data">
+		<div class="main">
+			{% csrf_token %}
+			{{ form.media }}
+		    {% bootstrap_form form %}
+	    </div>
+	    <div class="right">
+			<input style="position: absolute; left:50%;  bottom: 30px;" type="submit" value='Save' />
+		</div>	
+		</form>
+	</div>
 </div>
 {% else %}
 <h1>GET OUT!!</h1>
 {% endif %}
+{% endblock%}

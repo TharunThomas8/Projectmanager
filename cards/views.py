@@ -12,7 +12,7 @@ import calendar
 
 def add_card(request):
 	# print (request)
-	form = NewCard(request.POST or None)
+	form = NewCard(request.POST or None,request.FILES or None)
 	if form.is_valid():
 		form.save()
 
@@ -29,7 +29,7 @@ def view_card(request,cid):
 
 def add_chat(request,cid):
 	# print (request)
-	form = NewChat(request.POST or None)
+	form = NewChat(request.POST or None,request.FILES or None)
 	if form.is_valid():
 		form.save()
 

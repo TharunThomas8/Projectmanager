@@ -7,7 +7,6 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css">
-  <title>Django Calendar App</title>
   <style type="text/css">
     .calendar {
       width: 98%;
@@ -72,7 +71,7 @@
   </style>
 </head>
 <body>
-{% if user.is_authenticated %}
+{% if user.is_authenticated and user.profile.member or user.profile.admin %}
 
 {% block content %}
 

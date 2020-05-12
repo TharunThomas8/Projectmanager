@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" >
+{%  extends 'base.html' %}
+{% block content %}
+
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - Blog Cards</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,700" rel="stylesheet">
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css'>
@@ -14,7 +14,6 @@
 
 body {
   background: #f1f1f1;
-  margin: 2rem;
 }
 
 .blog-card {
@@ -217,7 +216,7 @@ body {
 </head>
 <body>
 <!-- partial:index.partial.html -->
-{% if user.is_authenticated %}
+{% if user.is_authenticated and user.profile.member or user.profile.admin %}
   <div class="blog-card">
     <div class="meta">
       <div class="photo" style="background-image: url(https://source.unsplash.com/1600x900/?technology)"></div>
@@ -236,13 +235,15 @@ body {
     </div>
     <div class="description">
       <h1>{{card.title}}</h1>
-      <h2>To : {{card.assigned}} &nbsp&nbsp&nbsp By : {{card.due}}</h2>
+      <h2>To : {{card.assigned}} &nbsp&nbsp&nbsp By : {{card.due}} &nbsp&nbsp&nbsp <a href="/media/{{card.file}}" download>File: {{card.file}}</a></h2>
       <h3>{{card.description}}</h3>
       {% for c in chat%}
-              <p><b>{{c.author}}</b><a style="font-size: 10px;">({{c.created_at}})</a>:{{c.msg}}</p>
+              <p><b>{{c.author}}</b><a style="font-size: 10px;">({{c.created_at}})</a>:{{c.msg}} &nbsp&nbsp&nbsp 
+                {% if c.file %}
+                  Upload:<a href="/media/{{c.file}}" download>{{c.file}}</a></p>
+                {% endif %}
       {% endfor %}
       <p class="read-more">
-        <a href="//localhost:8000/"> Home</a>
         <a href="http://localhost:8000/card/add_chat/{{card.c_id}}/">Add on</a>
       </p>
     </div>
@@ -253,4 +254,4 @@ body {
 <h1>GET OUT!!</h1>
 {% endif %}
 </body>
-</html>
+{% endblock%}
