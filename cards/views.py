@@ -28,13 +28,14 @@ def view_card(request,cid):
 		return HttpResponse("Nopidy nope")
 
 def add_chat(request,cid):
-	# print (request)
-	form = NewChat(request.POST or None,request.FILES or None)
-	if form.is_valid():
-		form.save()
+# print (request)
+    form = NewChat(request.POST or None,request.FILES or None)
+    if form.is_valid():
+        print (form)
+        form.save()
 
-	context = {'form': form,'cid':cid}
-	return render(request,'add_chat.html',context)
+    context = {'form': form,'cid':cid}
+    return render(request,'add_chat.html',context)
 
 class CalendarView(generic.ListView):
     model = Cards

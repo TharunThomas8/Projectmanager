@@ -50,17 +50,5 @@ def register_user(request):
 	return render(request,'register.html',context)
 
 
-def change_password(request):
-	if request.method =='POST':
-		form = PasswordChangeForm(data=request.POST,user=request.user)
-		if form.is_valid():
-			form.save()
-			update_session_auth_hash(request,form.user)
-			messages.success(request,('you have been successfully registered in'))
-			return redirect('home')			
-	else:
-		form = PasswordChangeForm(user=request.user)
-	context={'form':form}
-	return render(request,'change_password.html',context)
 
 

@@ -15,8 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -41,6 +39,7 @@ INSTALLED_APPS = [
     'auth1',
     'cards',
     'bootstrap4',
+    # 'encrypted_model_fields',
 ]
 
 MIDDLEWARE = [
@@ -138,3 +137,5 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media_cdn")
 
 
 PROTECTED_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "protected_media")
+# os.environ.setdefault("FIELD_ENCRYPTION_KEY", "2HDE5E2k6PxJniom5xUCFLFn_DioCGZRQ4gcxlrT5Ls=")
+# FIELD_ENCRYPTION_KEY = os.environ.get('FIELD_ENCRYPTION_KEY','' )
