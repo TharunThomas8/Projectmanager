@@ -4,6 +4,14 @@
 {% bootstrap_css %}
 {% bootstrap_javascript jquery='full' %} 
 {% if user.is_authenticated and user.profile.member or user.profile.admin %}
+<style type="text/css">
+    body {
+      background-image: url(https://wallpaperplay.com/walls/full/e/7/3/63371.jpg);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: 100% 100%;
+    }
+</style>
 <div style="width: 50%; padding-left:10%; padding-top: 50px ">
 <form method="POST" enctype="multipart/form-data" >
   {% csrf_token %}

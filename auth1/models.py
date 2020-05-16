@@ -12,6 +12,10 @@ class Profile(models.Model):
     member = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
 
+    def __str__(self):
+        return str(self.user.username)
+
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

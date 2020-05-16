@@ -5,13 +5,15 @@ from django.template import RequestContext
 from django.contrib import messages
 from .forms import SignUpForm,EditProfileForm,ProfileForm
 from .models import Profile
+from datetime import date
 from cards.models import Cards
 
 # Create your views here.
 def home(request):
 	# print (request)
 	cards = Cards.objects.all()
-	return render(request,'home.html',{'cards':cards})
+	today = date.today()
+	return render(request,'home.html',{'cards':cards,'today':today})
 def login_user(request):
 	if request.method =='POST':
 		username = request.POST['username']

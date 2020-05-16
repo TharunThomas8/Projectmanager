@@ -29,41 +29,215 @@
   text-align: center;
   background-color: #f1f1f1;
 }
+
+div.foo{
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+}
+.letter{
+  display: inline-block;
+  font-weight: 900;
+  font-size: 8em;
+  margin: 0.2em;
+  position: relative;
+  color: #00B4F1;
+  transform-style: preserve-3d;
+  perspective: 400;
+  z-index: 1;
+}
+.letter:before, .letter:after{
+  position:absolute;
+  content: attr(data-letter);
+  transform-origin: top left;
+  top:0;
+  left:0;
+}
+.letter, .letter:before, .letter:after{
+  transition: all 0.3s ease-in-out;
+}
+.letter:before{
+  color: #fff;
+  text-shadow: 
+    -1px 0px 1px rgba(255,255,255,.8),
+    1px 0px 1px rgba(0,0,0,.8);
+  z-index: 3;
+  transform:
+    rotateX(0deg)
+    rotateY(-15deg)
+    rotateZ(0deg);
+}
+.letter:after{
+  color: rgba(0,0,0,.11);
+  z-index:2;
+  transform:
+    scale(1.08,1)
+    rotateX(0deg)
+    rotateY(0deg)
+    rotateZ(0deg)
+    skew(0deg,1deg);
+}
+.letter:hover:before{
+  color: #fafafa;
+  transform:
+    rotateX(0deg)
+    rotateY(-40deg)
+    rotateZ(0deg);
+}
+.letter:hover:after{
+  transform:
+    scale(1.08,1)
+    rotateX(0deg)
+    rotateY(40deg)
+    rotateZ(0deg)
+    skew(0deg,22deg);
+}
+
+.icon-animated {
+	width: 80px;
+	height: 40px;
+	position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.icon-animated .tick svg {
+	position: absolute;
+	left: 22px;
+	right: 0;
+	top: 12px;
+	bottom: 0;
+	fill: green;
+	width: 25px;
+    height: 25px;
+}
+
+.tick-leg1 {
+	fill: green;
+	animation-fill-mode: forwards;
+    animation-name: tick-swipe1;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    transform: scaleX(0);
+    transform-origin: left bottom;
+	opacity: 0;
+}
+
+.tick-leg2 {
+	fill: black;
+	animation-fill-mode: forwards;
+    animation-name: tick-swipe2;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+    transform: scaleY(0);
+    transform-origin: right bottom;
+	opacity: 0;
+}
+
+
+@keyframes tick-swipe1 {
+    0% {
+		opacity: 0;
+    }
+    10% {
+		opacity: 0.5;
+    }
+    20% {
+		opacity: 1;
+    }
+
+
+    100% {
+		opacity: 1;
+    	transform: scaleX(1);
+    }
+}
+
+@keyframes tick-swipe2 {
+	40% {
+		opacity: 0;
+	}
+    47% {
+    	transform: scaleY(0.15);
+		opacity: 1;
+    }
+    100% {
+    	transform: scaleY(1);
+		opacity: 1;
+    }
+}
+
+.tick {
+	width: 100%;
+	height: 100%;
+	transform: rotate(45deg) scale(0.8);
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+    right: 0;
+}
+
+.tick-holder {
+	transform: scale(0.6);
+}
 </style>
-<center><h1>Project Manager</h1></center>
-<br>
+
 {% if user.is_authenticated %}
 <!-- 	UserName:{{user.username}}
 	{{user.firstname}} -->
 	<div class="container">
-			  <h5>Hi<b> {{ user.username }} </b></h5>
+			  <h5 style="color: white;">Hello<b> {{ user.username }} </b></h5>
 			  		{% if user.profile.member or user.profile.admin %}
-						<h1>Welcome</h1>
+						<h1 style="color: white;">Welcome</h1>
 						{% if user.profile.admin %}
 						<div class="c_row">
 						  <div class="c_column">
 						  	<a href="http://localhost:8000/card/add_card/">
 						    <div class="card">
-						      <h1>+ Add Card</h1>
+						      <h2 style="font-style:italic; ">+ Add Card</h2>
 						      <p></p>
 						    </div>
 						    </a>
 						  </div>
 						  {% endif %}
 						  {% for card in cards%}
+						  {% if today < card.due %}
 						  <div class="c_column">
 							<div class="card">
 								<a href="http://localhost:8000/card/view_card/{{card.c_id}}/">
-							      <h3>{{card.title}}</h3>
+							      <h3 style="font-style:italic; ">{{card.title}}</h3>
 							  </a>
 							      <p>To: {{card.assigned}}</p>
 							</div>
 						  </div>
+						  {% else %}
+						  <div class="c_column">
+							<div class="card">
+								<a href="http://localhost:8000/card/view_card/{{card.c_id}}/">
+							      <h3 style="font-style:italic; display: inline-block; ">{{card.title}}</h3>
+
+							      <div class="icon-animated icon-animated-tick" tabindex="-1" aria-hidden="true">
+									<div class="tick">
+										<svg class="tick-leg1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 52">
+											<polygon class="" points="1,41 0,48 25,52 25,45" />
+										</svg>
+										<svg class="tick-leg2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 52">
+											<polygon class="" points="18,45 25,47 25,0 18,0" />
+										</svg>
+									</div>
+								</div>
+							  </a>
+							      <p>To: {{card.assigned}} (over due)</p>
+							</div>
+						  </div>
+						  {% endif %}
 						  {% endfor %}
 						  <div class="c_column">
 						  	<a href="http://localhost:8000/card/calendar/">
 						    <div class="card">
-						      <h2>View Calendar</h2>
+						      <h2 style="font-style:italic; ">View Calendar</h2>
 						      <p></p>
 						    </div>
 						    </a>
@@ -84,7 +258,25 @@
 <!-- <img src="{{user.profile.image}}" alt=" "><br> -->
 <!-- <p>{{user.profile.birth_date}}</p> -->
 	</div>
+{% else %}
+<div class="foo">
+  <span class="letter" data-letter="P">P</span>
+  <span class="letter" data-letter="R">R</span>
+  <span class="letter" data-letter="O">O</span>
+  <span class="letter" data-letter="J">J</span>
+  <span class="letter" data-letter="E">E</span>
+  <span class="letter" data-letter="C">C</span>
+  <span class="letter" data-letter="T">T</span><br>
+  <span class="letter" data-letter="M">M</span>
+  <span class="letter" data-letter="A">A</span>
+  <span class="letter" data-letter="N">N</span>
+  <span class="letter" data-letter="A">A</span>
+  <span class="letter" data-letter="G">G</span>
+  <span class="letter" data-letter="E">E</span>
+  <span class="letter" data-letter="R">R</span>
 
+
+</div>
 
 {% endif %}
 {% endblock%}
