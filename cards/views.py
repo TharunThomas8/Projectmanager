@@ -12,33 +12,33 @@ import calendar
 
 def add_card(request):
 	# print (request)
-	form = NewCard(request.POST or None,request.FILES or None)
+	form = NewCard(request.POST or None,request.FILES or None)     #POST request to retrieve the data with the file if any
 	if form.is_valid():
 		form.save()
 
 	context = {'form': form}
-	return render(request,'add_cards.html',context)
+	return render(request,'add_cards.html',context)    #sends the form to retieve the card data
 
 def view_card(request,cid):
-	card = Cards.objects.filter(c_id=cid).first()
-	chat = Chat.objects.filter(card__c_id=cid).order_by('id')
+	card = Cards.objects.filter(c_id=cid).first()      #c_id is passed to identify the card which is used to filter through the DB 
+	chat = Chat.objects.filter(card__c_id=cid).order_by('id')      #the same c_id is used to filter through the chat as well
 	if card != None:
-		return render(request,'card.html',{'card':card,'chat':chat})
+		return render(request,'card.html',{'card':card,'chat':chat})      #page is rendered with the card and it's corresponding chat
 	else:
-		return HttpResponse("Nopidy nope")
+		return HttpResponse("Nopidy nope")        #c_id is invalid
 
 def add_chat(request,cid):
 # print (request)
-    form = NewChat(request.POST or None,request.FILES or None)
+    form = NewChat(request.POST or None,request.FILES or None)      #POST request to retrieve the data with the file if any
     if form.is_valid():
         print (form)
         form.save()
 
     context = {'form': form,'cid':cid}
-    return render(request,'add_chat.html',context)
+    return render(request,'add_chat.html',context)      #sends the form to retieve the card data
 
 class CalendarView(generic.ListView):
-    model = Cards
+    model = Cards       #retireves the cards data from the DB
     template_name = 'calendar.html'
 
     def get_context_data(self, **kwargs):

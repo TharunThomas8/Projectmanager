@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-class Cards(models.Model):
+class Cards(models.Model):              #Database structure of the cards
     c_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, blank=True, unique=True)
     description = models.TextField(max_length=100, blank=True)
@@ -13,7 +13,7 @@ class Cards(models.Model):
     def __str__(self):
         return self.title +':'+ str(self.c_id)
 
-class Chat(models.Model):
+class Chat(models.Model):               #Database structure of the chats
     msg = models.CharField(max_length=50, blank=True)
     author = models.CharField(max_length=50, blank=True)
     card = models.ForeignKey('Cards',on_delete=models.SET_NULL, null=True)
